@@ -10,12 +10,14 @@ import os
 import matplotlib.pyplot as plot
 import seaborn
 from sklearn.model_selection import train_test_split
-
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report
+from sklearn.metrics import mean_squared_error
 
 # ### Load Dataset
 
 # In[36]:
-
 
 def load_csv(file_name):
     """ function that loads csv from local file
@@ -35,38 +37,45 @@ data_frame
 
 
 print(data_frame.info())
-
+print('------------------------------------')
 
 # In[39]:
 
-print('-----------------------------------------------------')
-print(data_frame.describe())
 
+print(data_frame.describe())
+print('------------------------------------')
 
 # # # Visualization
 # # 
 # # 
 # # 
-# # ### Histogram 
 
 # # In[40]:
 
+# plot pairplot
+#seaborn.pairplot(data_frame)
+#show graph
+#plot.show()
 
-# data_frame.hist(bins=100,figsize=(20,20))
-# plot.show()
+
+
+# # ### Histogram 
+
+#data_frame.hist(bins=100,figsize=(20,20))
+#plot.show()
 
 
 # # In[41]:
 
 
-plot.figure(figsize=[5,3])
+#plot.figure(figsize=[5,3])
 # plot bar graph
-plot.bar(data_frame['quality'],data_frame['alcohol'],color='gray')
+#plot.bar(data_frame['quality'],data_frame['alcohol'],color='gray')
 # label x-axis
-plot.xlabel('quality')
+#plot.xlabel('quality')
 #label y-axis
-plot.ylabel('alcohol')
-
+#plot.ylabel('alcohol')
+#plot.show()
 
 # # # Correlation
 # # 
@@ -77,9 +86,9 @@ plot.ylabel('alcohol')
 # # In[42]:
 
 
-plot.figure(figsize=[19,10],facecolor='white')
-seaborn.heatmap(data_frame.corr(),annot=True)
-
+#plot.figure(figsize=[19,10],facecolor='white')
+#seaborn.heatmap(data_frame.corr(),annot=True)
+#plot.show()
 
 # # # DELETE!!!
 # # 
@@ -90,11 +99,13 @@ seaborn.heatmap(data_frame.corr(),annot=True)
 # # In[43]:
 
 
+# loop for columns
 for column_index in range(len(data_frame.corr().columns)):
+    # loop for rows
     for row_index in range(column_index):
         if abs(data_frame.corr().iloc[column_index, row_index]) >0.7:
             name = data_frame.corr().columns[row_index]
-            print(name + 'bladjblajbg;lajbg')
+            print(name)
 
 
 # # ### Here we write a python program with that we find those features whose correlation number is high, as you see in the program we set the correlation number greater than 0.7 it means if any feature has a correlation value above 0.7 then it was considered as a fully correlated feature, at last, we find the feature total sulfur dioxide which satisfy the condition. So, we drop that feature
@@ -137,18 +148,29 @@ next_data_frame
 # # In[48]:
 
 next_data_frame['best quality'] = [1 if quality >=7 else 0 for quality in data_frame.quality] 
+print(next_data_frame)
+
+
 
 # # # Splitting dataset
 
 # # In[50]
-X =  next_data_frame.iloc[:, [2,3]]
-y =  next_data_frame['best quality']
-x_train,x_test,y_train,y_test = train_test_split(X, y, test_size=0.2, random_state=40)
 
-print("_______________________________________________")
-print(x_train, x_test)
+##################### Jony  #########################
+
+#X =  next_data_frame.iloc[:, [2,3]]
+#y =  next_data_frame['best quality']
+#x_train,x_test,y_train,y_test = train_test_split(X, y, test_size=0.2, random_state=40)
+
+##################### Jony  #########################
+
+
+# independent variables
+x = next_data_frame.drop(['quality','best quality'],axis=1)
+# dependent variable
+y = next_data_frame['best quality']
 # # (alredy imported) --> train_test_split()
-# x_train,x_test,y_train,y_test = train_test_split(train, test, test_size=0.2, random_state=40)
+x_train,x_test,y_train,y_test = train_test_split(x, y, test_size=0.2, random_state=40)
 
 
 # # # Normalization
@@ -156,16 +178,16 @@ print(x_train, x_test)
 # # In[ ]:
 
 
-# #importing module
-from sklearn.preprocessing import MinMaxScaler
-# creating normalization object 
+# creating scale object 
 norm = MinMaxScaler()
-# fit data
+# fit the new scalde data
 norm_fit = norm.fit(x_train)
-new_xtrain = norm_fit.transform(x_train)
-new_xtest = norm_fit.transform(x_test)
+# transformation of training data
+new_x_train = norm_fit.transform(x_train)
+# transformation of testing data
+new_x_test = norm_fit.transform(x_test)
 # display values
-print(new_xtrain)
+print(new_x_train)
 
 
 # # # Applying Model
@@ -180,19 +202,21 @@ print(new_xtrain)
 # importing modules
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
+# for error checking
+from sklearn.metrics import mean_squared_error
 #creating RandomForestClassifier constructor
 rnd = RandomForestClassifier()
 # fit data
-fit_rnd = rnd.fit(new_xtrain,y_train)
+fit_rnd = rnd.fit(new_x_train,y_train)
 # predicting score
-rnd_score = rnd.score(new_xtest,y_test)
-print('score of model is : ',rnd_score)
+rnd_score = rnd.score(new_x_test,y_test)
+print('score of Random Forest Classifier model is : ',rnd_score)
 # display error rate
 print('calculating the error')
 # calculating mean squared error
 rnd_MSE = mean_squared_error(y_test, y_predict)
 # calculating root mean squared error
-rnd_RMSE = np.sqrt(MSE)
+rnd_RMSE = numpy.sqrt(rnd_MSE)
 # display MSE
 print('mean squared error is : ',rnd_MSE)
 # display RMSE
