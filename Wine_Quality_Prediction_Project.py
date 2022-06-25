@@ -50,14 +50,11 @@ print('------------------------------------')
 # # 
 # # 
 
+#Box Plot:
+
+#seaborn.boxplot(data_frame)
+
 # # In[40]:
-
-# plot pairplot
-#seaborn.pairplot(data_frame)
-#show graph
-#plot.show()
-
-
 
 # # ### Histogram 
 
@@ -68,14 +65,14 @@ print('------------------------------------')
 # # In[41]:
 
 
-#plot.figure(figsize=[5,3])
-# plot bar graph
-#plot.bar(data_frame['quality'],data_frame['alcohol'],color='gray')
-# label x-axis
-#plot.xlabel('quality')
-#label y-axis
-#plot.ylabel('alcohol')
-#plot.show()
+# plot.figure(figsize=[5,3])
+# # plot bar graph
+# plot.bar(data_frame['quality'],data_frame['alcohol'],color='gray')
+# # label x-axis
+# plot.xlabel('quality')
+# # label y-axis
+# plot.ylabel('alcohol')
+# plot.show()
 
 # # # Correlation
 # # 
@@ -147,7 +144,7 @@ next_data_frame
 
 # # In[48]:
 
-next_data_frame['best quality'] = [1 if quality >=7 else 0 for quality in data_frame.quality] 
+next_data_frame['best quality'] = [1 if quality >=7 else 0 for quality in data_frame.quality]
 print(next_data_frame)
 
 

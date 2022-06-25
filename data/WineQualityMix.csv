@@ -1,4 +1,4 @@
-type,fixed acidity,volatile acidity,citric acid,residual sugar,chlorides,free sulfur dioxide,total sulfur dioxide,density,pH,sulphates,alcohol,quality
+type,fixed acidity,volatile_acidity,citric_acid,residual sugar,chlorides,free sulfur dioxide,total sulfur dioxide,density,pH,sulphates,alcohol,quality
 white,6,0.21,0.38,0.8,0.02,22,98,0.98941,3.26,0.32,11.8,6
 white,5.5,0.29,0.3,1.1,0.022,20,110,0.98869,3.34,0.38,12.8,7
 white,6.5,0.24,0.19,1.2,0.041,30,111,0.99254,2.99,0.46,9.4,6
